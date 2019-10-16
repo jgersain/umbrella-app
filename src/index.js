@@ -6,7 +6,7 @@ import 'mdbreact/dist/css/mdb.css';
 
 import './base.scss';
 
-import App from './components/App/App';
+import App from './components/App';
 
 const container = document.getElementById('app');
 
