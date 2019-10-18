@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 
 import './styles/Login.scss';
@@ -9,7 +10,7 @@ const Login = () => (
       <MDBRow>
         <MDBCol>
           <form>
-            <p className="h5 text-center mb-4 font-weight-bold">INICIAR SESIÓN</p>
+            <p className="h4 text-center mb-4 font-weight-bold text-muted">INICIAR SESIÓN</p>
             <div className="grey-text">
               <MDBInput
                 label="Correo Electrónico"
@@ -32,6 +33,14 @@ const Login = () => (
               <MDBBtn className="btn peach-gradient font-weight-bold">Iniciar Sesión</MDBBtn>
             </div>
           </form>
+        </MDBCol>
+        <MDBCol md='12' className="pt-4">
+          <p className='font-small d-flex justify-content-end'>
+            ¿No tienes una cuenta?
+            <Link to='/sign_up' className='text-default ml-1 font-weight-bold'>
+              Registrate aquí! 
+            </Link>
+          </p>
         </MDBCol>
       </MDBRow>
     </MDBContainer>
