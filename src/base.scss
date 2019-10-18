@@ -1,1 +1,13 @@
 // global styles here
+
+#app {
+  background-color: #f1f2f6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #app, #app>div {
+  height: 100%;
+}
