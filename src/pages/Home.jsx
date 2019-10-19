@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import { MDBView, MDBMask } from 'mdbreact';
+
 import backgroundImage from '../assets/images/background.jpg';
 import './styles/Home.scss'
 
