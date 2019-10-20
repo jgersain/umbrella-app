@@ -11,8 +11,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import environ
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
 
-DJANGO_ENV = os.getenv('DJANGO_ENV', 'development')
+DJANGO_ENV = env('DJANGO_ENV', default='development')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'everybodywantstorulethewrold')
+SECRET_KEY = env('SECRET_KEY', default='hereisyoursecretkey')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DJANGO_ENV == 'development'
@@ -47,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,10 +88,10 @@ WSGI_APPLICATION = 'umbrella_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'umbrella_app'),
-        'USER': os.getenv('DB_USER', 'umbrella_user'),
-        'PASSWORD': os.getenv('DB_PASS', 'umbrella_password'),
-        'HOST': os.getenv('DB_HOST', 'db')
+        'NAME': env('DB_NAME', default='postgres'),
+        'USER': env('DB_USER', default='postgres'),
+        'PASSWORD': env('DB_PASS', default='postgres'),
+        'HOST': env('DB_HOST', default='db')
     }
 }
 
