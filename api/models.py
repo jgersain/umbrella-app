@@ -21,5 +21,4 @@ class User(models.Model):
     # tipo = models.CharField(max_length=45, null=True, blank=True)
 
     def __str__(self):
-        return "{} {}".format(self.nombre, self.apellidos)
-# Create your models here.
+        return "{} {}".format(self.name, self.email)
