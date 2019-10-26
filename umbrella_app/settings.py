@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY', default='hereisyoursecretkey')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DJANGO_ENV == 'development'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'corsheaders' if DJANGO_ENV == 'development' else None,
     'rest_framework',
     # local code
-    'api'
-
+    'api',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -88,10 +88,17 @@ WSGI_APPLICATION = 'umbrella_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+<<<<<<< HEAD
         'NAME': env('DB_NAME', default='postgres'),
         'USER': env('DB_USER', default='postgres'),
         'PASSWORD': env('DB_PASS', default='postgres'),
         'HOST': env('DB_HOST', default='db')
+=======
+        'NAME': 'umbrella_app',
+        'USER': 'postgres',
+        'PASSWORD': '',
+        'HOST': 'db'
+>>>>>>> feature/graphql
     }
 }
 
