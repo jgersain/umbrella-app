@@ -21,7 +21,7 @@ const Login = props => {
   const handleSubmit = event => {
     event.preventDefault();
     props.loginRequest(form)
-    props.history.push('/');
+    props.history.push('/looking');
   }
 
   return (
