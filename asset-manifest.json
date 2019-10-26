@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/umbrella-app/static/css/main.e92aa9d9.chunk.css",
+    "main.js": "/umbrella-app/static/js/main.d10dd7f7.chunk.js",
+    "main.js.map": "/umbrella-app/static/js/main.d10dd7f7.chunk.js.map",
+    "runtime-main.js": "/umbrella-app/static/js/runtime-main.fe29aa6f.js",
+    "runtime-main.js.map": "/umbrella-app/static/js/runtime-main.fe29aa6f.js.map",
+    "static/css/2.c45fbf1f.chunk.css": "/umbrella-app/static/css/2.c45fbf1f.chunk.css",
+    "static/js/2.5dd69019.chunk.js": "/umbrella-app/static/js/2.5dd69019.chunk.js",
+    "static/js/2.5dd69019.chunk.js.map": "/umbrella-app/static/js/2.5dd69019.chunk.js.map",
+    "index.html": "/umbrella-app/index.html",
+    "precache-manifest.9c2c584f3ee1ce8e06551971bab81551.js": "/umbrella-app/precache-manifest.9c2c584f3ee1ce8e06551971bab81551.js",
+    "service-worker.js": "/umbrella-app/service-worker.js",
+    "static/css/2.c45fbf1f.chunk.css.map": "/umbrella-app/static/css/2.c45fbf1f.chunk.css.map",
+    "static/css/main.e92aa9d9.chunk.css.map": "/umbrella-app/static/css/main.e92aa9d9.chunk.css.map",
+    "static/media/NotFound.scss": "/umbrella-app/static/media/404.ffadd160.png",
+    "static/media/mdb.css": "/umbrella-app/static/media/arrow_right.8ef6a08c.svg",
+    "static/media/background.jpg": "/umbrella-app/static/media/background.5caf1fc9.jpg",
+    "static/media/all.min.css": "/umbrella-app/static/media/fa-solid-900.c2801fb4.svg",
+    "static/media/user-location.png": "/umbrella-app/static/media/user-location.52755560.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.fe29aa6f.js",
+    "static/css/2.c45fbf1f.chunk.css",
+    "static/js/2.5dd69019.chunk.js",
+    "static/css/main.e92aa9d9.chunk.css",
+    "static/js/main.d10dd7f7.chunk.js"
+  ]
+}
