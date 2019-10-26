@@ -129,5 +129,5 @@ class Looking extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'APIKEY'
+  apiKey: process.env.REACT_APP_GOOGLE_API_KEY
 })(Looking);
