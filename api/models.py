@@ -1,11 +1,11 @@
 from django.db import models
 
 
-class User(models.Model):
+class Usuario(models.Model):
     """ Define la tabla User """
-    name = models.CharField(max_length=40)
+    nombre = models.CharField(max_length=40)
     email = models.EmailField()
-    password = models.CharField(max_length=20)
+    clave = models.CharField(max_length=20)
 
     # fechaAlta = models.DateField()
     # ultimaSesion = models.DateField()
@@ -21,4 +21,24 @@ class User(models.Model):
     # tipo = models.CharField(max_length=45, null=True, blank=True)
 
     def __str__(self):
-        return "{} {}".format(self.name, self.email)
+        return "{}".format(self.nombre)
+
+class Sombrilla(models.Model):
+    """Define la tabla de Umbrella"""    
+    longitude = models.DecimalField(max_digits=8, decimal_places=2)
+    latitude = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def __str__(self):
+        return "{}".format(self.id)
+
+
+class Prestamo(models.Model):
+    """"Define la tabla de Prestamos"""
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    sobmrilla = models.ForeignKey(Sombrilla, on_delete=models.CASCADE)
+    fecha_inicial = models.DateTimeField(auto_now=True)
+    fecha_final = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return "{}".format(self.id)
+
