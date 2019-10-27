@@ -25,8 +25,8 @@ class Usuario(models.Model):
 
 class Sombrilla(models.Model):
     """Define la tabla de Umbrella"""    
-    longitude = models.DecimalField(max_digits=8, decimal_places=2)
-    latitude = models.DecimalField(max_digits=8, decimal_places=2)
+    longitude = models.FloatField()
+    latitude = models.FloatField()
 
     def __str__(self):
         return "{}".format(self.id)
@@ -35,9 +35,15 @@ class Sombrilla(models.Model):
 class Prestamo(models.Model):
     """"Define la tabla de Prestamos"""
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    sobmrilla = models.ForeignKey(Sombrilla, on_delete=models.CASCADE)
-    fecha_inicial = models.DateTimeField(auto_now=True)
-    fecha_final = models.DateTimeField(null=True, blank=True)
+    sombrilla = models.ForeignKey(Sombrilla, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now=True)
+
+    ESTATUS = [
+        ("I", "Inicio"),
+        ("T", "Termino"),
+    ]
+
+    estatus = models.CharField(max_length=1, choices=ESTATUS)
 
     def __str__(self):
         return "{}".format(self.id)
