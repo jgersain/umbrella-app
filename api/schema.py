@@ -1,8 +1,8 @@
 import graphene
-
 from graphene_django.types import DjangoObjectType
-from .models import Usuario, Prestamo, Sombrilla
+import graphql_jwt
 
+from .models import Usuario, Prestamo, Sombrilla
 
 class UsuarioType(DjangoObjectType):
     """ Tipo de dato para manejar el tipo Usuario """
@@ -410,6 +410,10 @@ class Mutaciones(graphene.ObjectType):
     CreaSombrilla = CrearSombrilla.Field()
     ActualizarSombrilla = ActualizarSombrilla.Field()
     EliminarSombrilla = EliminarSombrilla.Field()
+
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()
 
 
 # Se crea un esquema que hace uso de la clase Query
