@@ -1,4 +1,6 @@
 // global styles here
+@import url('https://fonts.googleapis.com/css?family=Zhi+Mang+Xing&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script&display=swap');
 
 #app {    
   background-color: #f1f2f6;
@@ -10,4 +12,12 @@
 
 html, body, #app, #app>div {
   height: 100%;
+}
+
+.yupi {
+  font-family: 'Dancing Script', cursive;
+}
+
+.yupi-tiny {
+  font-size: 22px;;
 }

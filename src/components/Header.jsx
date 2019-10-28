@@ -1,6 +1,7 @@
 import React from 'react';
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBContainer } from 'mdbreact';
-// TODO import logo here
+import Logo from '../assets/images/yupi-station.png';
+
 
 class Header extends React.Component {
   constructor(props) {
@@ -24,7 +25,12 @@ class Header extends React.Component {
         <MDBNavbar color="purple-gradient" fixed="top" dark expand="md" scrolling>
           <MDBContainer>
             <MDBNavbarBrand href="/">
-              <strong>LOGO</strong>
+              <img src={Logo} width={40} height={40} alt="logo"/>
+              <strong>
+                <span className="font-weight-bold text-warning yupi yupi-tiny">
+                  YupiApp
+                </span>
+              </strong>
             </MDBNavbarBrand>
             {!this.state.isWideEnough && <MDBNavbarToggler onClick={this.onClick}/>}
             <MDBCollapse isOpen={this.state.collapse} navbar>
