@@ -43,7 +43,7 @@ class Header extends React.Component {
                 {authToken ? (
                   <li className="nav-item">
                     <span 
-                      className="nav-link font-weight-bold text-warning waves-effect waves-light"
+                      className="nav-link font-weight-bold text-default"
                       onClick={() => {
                         localStorage.removeItem(AUTH_TOKEN)
                         this.props.history.push(`/`)
@@ -54,7 +54,7 @@ class Header extends React.Component {
                   </li>
                 ) : (
                   <MDBNavItem>
-                    <MDBNavLink to="/login" className="font-weight-bold text-default">Iniciar Sesión</MDBNavLink>
+                    <MDBNavLink to="/login" className="font-weight-bold text-warning">Iniciar Sesión</MDBNavLink>
                   </MDBNavItem>
                 )}
               </MDBNavbarNav>
