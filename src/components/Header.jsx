@@ -1,6 +1,9 @@
 import React from 'react';
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBContainer } from 'mdbreact';
+import { withRouter } from "react-router-dom";
+
 import Logo from '../assets/images/yupi-station.png';
+import { AUTH_TOKEN } from '../constants';
 
 
 class Header extends React.Component {
@@ -20,6 +23,8 @@ class Header extends React.Component {
   }
 
   render() {
+    const authToken = localStorage.getItem(AUTH_TOKEN);
+
     return (
       <header>
         <MDBNavbar color="purple-gradient" fixed="top" dark expand="md" scrolling>
@@ -35,12 +40,23 @@ class Header extends React.Component {
             {!this.state.isWideEnough && <MDBNavbarToggler onClick={this.onClick}/>}
             <MDBCollapse isOpen={this.state.collapse} navbar>
               <MDBNavbarNav right>
-                <MDBNavItem>
-                  <MDBNavLink to="/login" className="font-weight-bold text-warning">Iniciar Sesión</MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink to="/sign_up" className="font-weight-bold text-default">Registrate</MDBNavLink>
-                </MDBNavItem>
+                {authToken ? (
+                  <li className="nav-item">
+                    <span 
+                      className="nav-link font-weight-bold text-warning waves-effect waves-light"
+                      onClick={() => {
+                        localStorage.removeItem(AUTH_TOKEN)
+                        this.props.history.push(`/`)
+                      }}
+                    >
+                      Registrate
+                    </span>
+                  </li>
+                ) : (
+                  <MDBNavItem>
+                    <MDBNavLink to="/login" className="font-weight-bold text-default">Iniciar Sesión</MDBNavLink>
+                  </MDBNavItem>
+                )}
               </MDBNavbarNav>
             </MDBCollapse>
           </MDBContainer>
@@ -50,4 +66,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);
