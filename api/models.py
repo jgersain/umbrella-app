@@ -23,6 +23,7 @@ class Usuario(models.Model):
     def __str__(self):
         return "{}".format(self.nombre)
 
+
 class Sombrilla(models.Model):
     """Define la tabla de Umbrella"""    
     longitude = models.FloatField()

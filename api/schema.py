@@ -3,18 +3,21 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from .models import Usuario, Prestamo, Sombrilla
 
+
 class UsuarioType(DjangoObjectType):
     """ Tipo de dato para manejar el tipo Usuario """
     class Meta:
         # Se relaciona con el origen de la data en models.Usuario
         model = Usuario
-        
+
+
 class PrestamoType(DjangoObjectType):
     """Tipo de dato para manejar el tipo Prestamo"""
 
     class Meta:
         # Se relaciona con el origen de la data en models.Prestamo
         model = Prestamo
+
 
 class SombrillaType(DjangoObjectType):
     """Tipo de dato para manejar el tipo Sombrilla"""
@@ -55,7 +58,7 @@ class Query(graphene.ObjectType):
     def resolve_usuarios(self, info, **kwargs):
         # Responde con la lista de todos registros
         return Usuario.objects.all()
-    
+
     def resolve_prestamos(self, info, **kwargs):
         # Responde con la lista de todos registros
         return Prestamo.objects.all()
@@ -112,6 +115,7 @@ class Query(graphene.ObjectType):
         except Sombrilla.DoesNotExist:
             return None
 
+
 class CrearUsuario(graphene.Mutation):
     """ 
     Crea un usuario en la tabla Usuario,
@@ -127,14 +131,13 @@ class CrearUsuario(graphene.Mutation):
         confirmarClave = graphene.String(required=True)
         
     # El atributo usado para la respuesta de la mutación
-    #usuario = graphene.Field(UsuarioType)
+    # usuario = graphene.Field(UsuarioType)
     respuesta = graphene.Int()
     mensaje = graphene.String()
 
     def mutate(self, info, nombre, email, clave, confirmarClave):
         """ Se encarga de crear el nuevo Usuario """
-        if clave == confirmarClave:
-           
+        if clave == confirmarClave:       
             try:
                 verificarEmail = Usuario.objects.get(email=email)
                 respuesta = None
@@ -147,7 +150,6 @@ class CrearUsuario(graphene.Mutation):
                 email=email,
                 clave=clave,
                 )
-            
             usuario.save()    
             respuesta = usuario.id
             mensaje = 'Usuario creado correctamente'
@@ -197,7 +199,6 @@ class ActualizarUsuario(graphene.Mutation):
     respuesta = graphene.Boolean()
     mensaje = graphene.String()
     
-
     def mutate(self, info, id, nombre=None, email=None, clave=None):
         """
         Modifica los valores en caso de haber sido enviados
@@ -244,6 +245,7 @@ class CrearPrestamo(graphene.Mutation):
     
     respuesta = graphene.Int()
     mensaje = graphene.String()
+
     def mutate(self, info, usuario, sombrilla, estatus):
         
         prestamo = Prestamo(
@@ -321,14 +323,13 @@ class CrearSombrilla(graphene.Mutation):
     Crea la ubicacion de una sombrilla
     """
     class Arguments:
-        latitude =  graphene.Float()
+        latitude = graphene.Float()
         longitude = graphene.Float()
 
     respuesta = graphene.Int()
     mensaje = graphene.String()
 
-    def mutate(self, info,latitude, longitude):
-        
+    def mutate(self, info,latitude, longitude): 
         # return CrearSombrilla(mensaje=str(latitude), respuesta=Decimal(latitude))
 
         sombrilla = Sombrilla(
@@ -395,8 +396,7 @@ class EliminarSombrilla(graphene.Mutation):
 
         except Sombrilla.DoesNotExist:
             respuesta = False
-            mensaje = 'No existe la Sombrilla'
-            
+            mensaje = 'No existe la Sombrilla'        
         return EliminarSombrilla(respuesta=respuesta, mensaje=mensaje)
 
 
