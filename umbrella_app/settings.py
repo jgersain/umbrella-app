@@ -142,3 +142,16 @@ CORS_ORIGIN_ALLOW_ALL = DJANGO_ENV == 'development'
 #     for item in os.getenv('ALLOWED_HOSTS', '').split(',')
 #     if item != ''
 # ]
+
+GRAPHENE = {
+    'SCHEMA': 'api.schema.schema',
+    # Add the line below
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
+}
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
