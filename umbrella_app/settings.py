@@ -136,9 +136,21 @@ STATIC_URL = '/static/'
 
 # CORS
 # https://github.com/adamchainz/django-cors-headers#configuration
-CORS_ORIGIN_ALLOW_ALL = DJANGO_ENV == 'development'
+CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ORIGIN_WHITELIST = [
 #     'https://' + item
 #     for item in os.getenv('ALLOWED_HOSTS', '').split(',')
 #     if item != ''
 # ]
+
+GRAPHENE = {
+    'SCHEMA': 'api.schema.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
+}
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]

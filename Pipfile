@@ -13,6 +13,7 @@ django-environ = "*"
 psycopg2 = "*"
 psycopg2-binary = "*"
 graphene-django ="*"
+django-graphql-jwt = "*"
 
 [requires]
 python_version = "3.7"
