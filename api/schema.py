@@ -2,6 +2,7 @@ import graphene
 from graphene_django.types import DjangoObjectType
 import graphql_jwt
 
+import users.schema
 from .models import Usuario, Prestamo, Sombrilla
 
 class UsuarioType(DjangoObjectType):
@@ -26,7 +27,7 @@ class SombrillaType(DjangoObjectType):
         model = Sombrilla
 
 
-class Query(graphene.ObjectType):
+class Query(users.schema.Query, graphene.ObjectType):
     """ Definición de las respuestas a las consultas posibles """
 
     # Se definen los posibles campos en las consultas
@@ -400,7 +401,7 @@ class EliminarSombrilla(graphene.Mutation):
         return EliminarSombrilla(respuesta=respuesta, mensaje=mensaje)
 
 
-class Mutaciones(graphene.ObjectType):
+class Mutaciones(users.schema.Mutation, graphene.ObjectType):
     CrearUsuario = CrearUsuario.Field()
     ActualizarUsuario = ActualizarUsuario.Field()
     EliminarUsuario = EliminarUsuario.Field()

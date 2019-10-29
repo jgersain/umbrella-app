@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Usuario(models.Model):
@@ -35,6 +36,7 @@ class Sombrilla(models.Model):
 
 class Prestamo(models.Model):
     """"Define la tabla de Prestamos"""
+    # usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     sombrilla = models.ForeignKey(Sombrilla, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now=True)
