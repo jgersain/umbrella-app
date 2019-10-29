@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // axios configuration 
 const client = axios.create({
-  baseURL: 'http://angelmartinez04.pythonanywhere.com/api', 
+  baseURL: 'https://angelmartinez04.pythonanywhere.com/api',
   json: true
 });
 
@@ -10,7 +10,7 @@ export default {
   async execute(method, resource, data) {
     return client({
       method,
-      url: resource, 
+      url: resource,
       data
     }).then(req => req.data)
   },
