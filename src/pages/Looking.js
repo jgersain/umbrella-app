@@ -1,6 +1,7 @@
 /* global google */
 import React, { Component } from 'react';
 import { GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
+import Api from '../Api'
 
 import MapLocation from '../components/MapLocation'
 import UserLocationIcon from '../assets/images/user-location.png';
@@ -14,38 +15,19 @@ class Looking extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      stations: [
-        {
-          name: 'YupiStation Torre del Caballito',
-          latitude: 19.436595,
-          longitude: -99.148838
-        },
-        {
-          name: 'YupiStation Plaza de la República',
-          latitude: 19.436468,
-          longitude: -99.154063
-        },
-        {
-          name: 'YupiStation Le Meridién',
-          latitude: 19.433985,
-          longitude: -99.154439
-        },
-        {
-          name: 'YupiStation Museo Nacional de San Carlos',
-          latitude: 19.438284,
-          longitude: -99.152067
-        },
-        {
-          name: 'YupiStation Fiesta America',
-          latitude: 19.432720,
-          longitude: -99.154986
-        },
-        {
-          name: 'YupiStation Test',
-          latitude: 19.618602,
-          longitude: -99.066066
-        }
-      ]
+      umbrellas: [],
+    }
+  }
+
+  // get all location of umbrellas
+  async componentDidMount() {
+    try {
+      let { data } = await Api.getUmbrellas();
+      this.setState({
+        umbrellas: data.sombrillas
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -67,16 +49,16 @@ class Looking extends Component {
   }
 
   // display stations
-  displayStations = () => {
-    return this.state.stations.map((station, index) => {
+  displayUmbrellas = () => {
+    return this.state.umbrellas.map((umbrella, index) => {
       return ([
         <Marker 
           key={index} 
           id={index} 
-          name={station.name}
+          name={umbrella.id}
           position={{
-            lat: station.latitude, 
-            lng: station.longitude
+            lat: umbrella.latitude, 
+            lng: umbrella.longitude
           }}
           onClick={this.onMarkerClick}
           icon={{
@@ -90,8 +72,17 @@ class Looking extends Component {
           visible={this.state.showingInfoWindow}
           onClose={this.onClose}
         >
-          <div>
-            <h4>{this.state.selectedPlace.name}</h4>
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">
+                YupiUmbrella #{this.state.selectedPlace.name}
+              </h5>
+              <button 
+                className="btn peach-gradient"
+              >
+                Comenzar
+              </button>
+            </div>
           </div>
         </InfoWindow>
       ])
@@ -122,7 +113,7 @@ class Looking extends Component {
             <h4>{this.state.selectedPlace.name}</h4>
           </div>
         </InfoWindow>
-        { this.displayStations() }
+        { this.displayUmbrellas() }
       </MapLocation>
     );
   }

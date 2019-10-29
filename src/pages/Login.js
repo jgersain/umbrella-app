@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React, { Component }  from 'react';
 import { AUTH_TOKEN } from '../constants';
 import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
@@ -16,15 +16,15 @@ class Login extends Component {
 
   async validate() {
     // let response = await axios({
-    //   url: 'http://localhost:8000/api/graphql',
+    //   url: 'http://angelmartinez04.pythonanywhere.com/api/graphql',
     //   method: 'POST',
     //   data: {
     //     query: `
     //       mutation CreateUser {
     //         CrearUsuario
     //         (
-    //           nombre: "Ezio Auditore",
-    //           email: "ezio@auditore.com",
+    //           nombre: "John Connor",
+    //           email: "john@connor.com",
     //           clave: "startx"
     //           confirmarClave: "startx"
     //         ){
