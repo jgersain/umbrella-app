@@ -3,14 +3,8 @@ from graphene_django.types import DjangoObjectType
 import graphql_jwt
 
 import users.schema
-from .models import Usuario, Prestamo, Sombrilla
-
-class UsuarioType(DjangoObjectType):
-    """ Tipo de dato para manejar el tipo Usuario """
-    class Meta:
-        # Se relaciona con el origen de la data en models.Usuario
-        model = Usuario
-
+from .models import Prestamo, Sombrilla
+from django.contrib.auth.models import User
 
 class PrestamoType(DjangoObjectType):
     """Tipo de dato para manejar el tipo Prestamo"""
@@ -31,17 +25,10 @@ class Query(users.schema.Query, graphene.ObjectType):
     """ Definición de las respuestas a las consultas posibles """
 
     # Se definen los posibles campos en las consultas
-    usuarios = graphene.List(UsuarioType)  # allUsuarios
 
     prestamos = graphene.List(PrestamoType)
 
     sombrillas = graphene.List(SombrillaType)
-
-    usuario = graphene.Field(UsuarioType, 
-                            id=graphene.Int(), 
-                            email=graphene.String(), 
-                            nombre=graphene.String()
-                            )
 
     prestamo = graphene.Field(PrestamoType, 
                             id=graphene.Int(), 
@@ -56,10 +43,6 @@ class Query(users.schema.Query, graphene.ObjectType):
                             )
 
     # Se define las respuestas para cada campo definido
-    def resolve_usuarios(self, info, **kwargs):
-        # Responde con la lista de todos registros
-        return Usuario.objects.all()
-
     def resolve_prestamos(self, info, **kwargs):
         # Responde con la lista de todos registros
         return Prestamo.objects.all()
@@ -83,22 +66,6 @@ class Query(users.schema.Query, graphene.ObjectType):
                 return Prestamo.objects.get(sombrilla=sombrilla)
         except Prestamo.DoesNotExist:
             return None
-    
-    def resolve_usuario(self, info, **kwargs):
-        # Para filtrar en la tabla Usuario
-        id = kwargs.get('id')
-        email = kwargs.get('email')
-        nombre = kwargs.get('nombre')
-
-        try:
-            if id is not None:
-                return Usuario.objects.get(pk=id)
-            if email is not None:
-                return Usuario.objects.get(email=email)
-            if nombre is not None:
-                return Usuario.objects.get(nombre=nombre)    
-        except Usuario.DoesNotExist:
-            return None
 
     def resolve_sombrilla(self, info, **kwargs):
 
@@ -117,124 +84,6 @@ class Query(users.schema.Query, graphene.ObjectType):
             return None
 
 
-class CrearUsuario(graphene.Mutation):
-    """ 
-    Crea un usuario en la tabla Usuario,
-    valida que el correo no exista en BD
-    y regresa ID de usuario
-    """
-
-    class Arguments:
-        """ Define los argumentos para crear un usuario """
-        nombre = graphene.String(required=True)
-        email = graphene.String(required=True)
-        clave = graphene.String(required=True)
-        confirmarClave = graphene.String(required=True)
-        
-    # El atributo usado para la respuesta de la mutación
-    # usuario = graphene.Field(UsuarioType)
-    respuesta = graphene.Int()
-    mensaje = graphene.String()
-
-    def mutate(self, info, nombre, email, clave, confirmarClave):
-        """ Se encarga de crear el nuevo Usuario """
-        if clave == confirmarClave:       
-            try:
-                verificarEmail = Usuario.objects.get(email=email)
-                respuesta = None
-                mensaje = 'Ya existe un usuario con este correo'
-                return CrearUsuario(respuesta=respuesta, mensaje=mensaje)
-
-            except Usuario.DoesNotExist:
-                usuario = Usuario(
-                nombre=nombre,
-                email=email,
-                clave=clave,
-                )
-            usuario.save()    
-            respuesta = usuario.id
-            mensaje = 'Usuario creado correctamente'
-        return CrearUsuario(respuesta=respuesta, mensaje=mensaje)
-
-
-class EliminarUsuario(graphene.Mutation):
-    """ Elimina un usuario de la tabla Usuario """
-    class Arguments:
-        """ Define los argumentos para eliminar una Usuario """
-        id = graphene.ID(required=True)
-
-    # El atributo usado para la respuesta de la mutación, en este caso sólo se
-    # indicará con la variuable ok true en caso de éxito o false en caso
-    # contrario
-    respuesta = graphene.Boolean()
-    mensaje = graphene.String()
-
-    def mutate(self, info, id):
-        """ Se encarga de eliminar al Usuario """
-        try:
-            # Elimina al Usuario si existe
-            usuario = Usuario.objects.get(pk=id)
-            usuario.delete()
-            respuesta = True
-            mensaje = 'El usuario ha sido eliminado correctamente'
-        except Usuario.DoesNotExist:
-            # No existe el Usuario
-            respuesta = False
-            mensaje = 'El usuario no existe en la Base de Datos'
-        # Se regresa una instancia de esta mutación
-        return EliminarUsuario(respuesta=respuesta, mensaje=mensaje)
-
-
-class ActualizarUsuario(graphene.Mutation):
-    """ 
-    Modifica usuario en la tabla Usuario
-    verificando que no exista el correo en BD
-    """
-    class Arguments:
-        """ Define los argumentos para modificar un Usuario """
-        id = graphene.ID(required=True)
-        nombre = graphene.String()
-        email = graphene.String()
-        clave = graphene.String()
-    
-    respuesta = graphene.Boolean()
-    mensaje = graphene.String()
-    
-    def mutate(self, info, id, nombre=None, email=None, clave=None):
-        """
-        Modifica los valores en caso de haber sido enviados
-        """
-        try:
-            usuario = Usuario.objects.get(pk=id)
-                       # Si el Usuario existe
-            if nombre is not None:
-                usuario.nombre = nombre
-            if clave is not None:
-                usuario.clave = clave
-            
-            if email is not None:
-                try:
-                    verificarEmail = Usuario.objects.get(email=email)
-                    respuesta = False
-                    mensaje = 'Ya existe un usuario con este Email'
-                except Usuario.DoesNotExist:
-                    usuario.email = email
-
-                    usuario.save()
-
-                    respuesta = True
-                    mensaje = 'El usuario fue actualizado correctamente'
- 
-        except Usuario.DoesNotExist:
-            # Si el Usuario no existe
-            respuesta = False
-            mensaje = 'El usuario no existe en la Base de Datos'
-            return ActualizarUsuario(respuesta=respuesta, mensaje=mensaje)
-        
-        # Se regresa una instancia de esta mutación
-        return ActualizarUsuario(respuesta=respuesta, mensaje=mensaje)
-
-
 class CrearPrestamo(graphene.Mutation):
     """
     Crea un prestamo en la tabla Prestamo
@@ -250,7 +99,7 @@ class CrearPrestamo(graphene.Mutation):
     def mutate(self, info, usuario, sombrilla, estatus):
         
         prestamo = Prestamo(
-            usuario=Usuario.objects.get(pk=usuario),
+            usuario=User.objects.get(pk=usuario),
             sombrilla=Sombrilla.objects.get(pk=sombrilla),
             estatus=estatus
         )
@@ -402,9 +251,6 @@ class EliminarSombrilla(graphene.Mutation):
 
 
 class Mutaciones(users.schema.Mutation, graphene.ObjectType):
-    CrearUsuario = CrearUsuario.Field()
-    ActualizarUsuario = ActualizarUsuario.Field()
-    EliminarUsuario = EliminarUsuario.Field()
     CrearPrestamo = CrearPrestamo.Field()
     ActualizarPrestamo = ActualizarPrestamo.Field()
     EliminarPrestamo = EliminarPrestamo.Field()
