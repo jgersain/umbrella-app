@@ -7,8 +7,6 @@ import { gql } from 'apollo-boost';
 
 import './styles/Login.scss';
 
-import Test from '../components/Test';
-
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation($email: String!, $password: String!, $username: String!) {
     createUser(email: $email, password: $password, username: $username) {
