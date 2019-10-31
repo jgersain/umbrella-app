@@ -43,13 +43,13 @@ class Header extends React.Component {
                 {authToken ? (
                   <li className="nav-item">
                     <span 
-                      className="nav-link font-weight-bold text-default"
+                      className="nav-link font-weight-bold text-default link"
                       onClick={() => {
                         localStorage.removeItem(AUTH_TOKEN)
                         this.props.history.push(`/`)
                       }}
                     >
-                      Registrate
+                      Cerrar sesión
                     </span>
                   </li>
                 ) : (

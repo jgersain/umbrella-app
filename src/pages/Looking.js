@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 import Api from '../Api'
-
 import MapLocation from '../components/MapLocation'
 import UserLocationIcon from '../assets/images/user-location.png';
 import YupiStationIcon from '../assets/images/yupi-station.png';
@@ -74,7 +73,7 @@ class Looking extends Component {
         >
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">
+              <h5 className="card-title text-center">
                 YupiUmbrella #{this.state.selectedPlace.name}
               </h5>
               <button 
@@ -97,7 +96,7 @@ class Looking extends Component {
       >
         <Marker 
           onClick={this.onMarkerClick} 
-          name={'Current location'}
+          name={'!Usted esta aquí! :)'}
           icon={{
             url: UserLocationIcon,
             anchor: new google.maps.Point(30,30),
