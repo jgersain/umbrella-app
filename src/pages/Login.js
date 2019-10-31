@@ -38,7 +38,6 @@ class Login extends Component {
         <MDBContainer id="login" className="card p-5 mt-5">
           <MDBRow>
             <MDBCol>
-              <Test></Test>
               <div id="userForm">
                 <p className="h4 text-center mb-4 font-weight-bold text-muted">
                   { login ? 'INICIAR SESIÓN' : 'REGISTRO'}
