@@ -18,6 +18,7 @@ const Card = props => {
     PROFILE_QUERY,
     { fetchPolicy: "network-only" }
   );
+  console.log(data);
   
   // if (loading) {
   //   return <p className="navbar-text navbar-right">Loading...</p>;
