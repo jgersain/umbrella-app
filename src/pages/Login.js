@@ -2,8 +2,27 @@
 import React, { Component }  from 'react';
 import { AUTH_TOKEN } from '../constants';
 import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
+import { Mutation } from 'react-apollo';
+import { gql } from 'apollo-boost';
 
 import './styles/Login.scss';
+
+import Test from '../components/Test';
+
+const SIGNUP_MUTATION = gql`
+  mutation SignupMutation($email: String!, $password: String!, $username: String!) {
+    createUser(email: $email, password: $password, username: $username) {
+      token
+    }
+  }
+`
+const LOGIN_MUTATION = gql`
+  mutation LoginMutation($username: String!, $password: String!) {
+    tokenAuth(username: $username, password: $password) {
+      token
+    }
+  }
+`
 
 class Login extends Component {
   state = {
@@ -14,90 +33,70 @@ class Login extends Component {
     users: []
   }
 
-  async validate() {
-    // let response = await axios({
-    //   url: 'http://angelmartinez04.pythonanywhere.com/api/graphql',
-    //   method: 'POST',
-    //   data: {
-    //     query: `
-    //       mutation CreateUser {
-    //         CrearUsuario
-    //         (
-    //           nombre: "John Connor",
-    //           email: "john@connor.com",
-    //           clave: "startx"
-    //           confirmarClave: "startx"
-    //         ){
-    //           respuesta
-    //           mensaje
-    //         }
-    //       }
-    //     `
-    //   }
-    // }).then((result) => {
-    //   console.log(result.data)
-    // });
-    // console.log(response);
-    
-    // this.setState({ users: response.data })
-  }
-
-  render() {
+  render() {  
     const { login, email, password, username } = this.state;
     return (
       <div id="login-wrapper">
         <MDBContainer id="login" className="card p-5 mt-5">
           <MDBRow>
             <MDBCol>
-              <form>
+              <Test></Test>
+              <div id="userForm">
                 <p className="h4 text-center mb-4 font-weight-bold text-muted">
                   { login ? 'INICIAR SESIÓN' : 'REGISTRO'}
                 </p>
                 <div className="grey-text">
                   { !login && (
                     <MDBInput
-                      label="Nombre de usuario"
-                      value={ username }
-                      onChange={e => this.setState({ name: e.target.value })}
-                      icon="user"
+                      label="Correo Electrónico"
+                      value={ email }
+                      onChange={e => this.setState({ email: e.target.value })}
+                      icon="envelope"
                       group
-                      type="text"
+                      type="email"
                       validate
-                      error="wrong"
-                      success="right"
+                      required
                     />
                   )}
                   <MDBInput
-                    name="email"
-                    value={ email }
-                    label="Correo Electrónico"
-                    icon="envelope"
+                    label="Nombre de usuario"
+                    value={ username }
+                    onChange={e => this.setState({ username: e.target.value })}
+                    icon="user"
                     group
-                    type="email"
+                    type="text"
                     validate
-                    error="wrong"
-                    success="right"
-                    onChange={e => this.setState({ email: e.target.value })}
+                    required
                   />
                   <MDBInput
-                    name="password"
+                    label="Constraseña"
                     value={ password }
                     onChange={e => this.setState({ password: e.target.value })}
-                    label="Constraseña"
                     icon="lock"
                     group
                     type="password"
                     validate
+                    required
                   />
                 </div>
                 <div className="text-center">
-                  <button 
-                    onClick={() => this._confirm()}
-                    className="btn peach-gradient font-weight-bold"
-                  > { login ? 'Iniciar Sesión' : 'Registrarse' }
-                  </button>
+                  <Mutation
+                    mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
+                    variables={{email, password, username}}
+                    onCompleted={data => this._confirm(data)}
+                  >
+                    {
+                      mutation => (
+                        <button
+                          onClick={mutation}
+                          className="btn peach-gradient font-weight-bold"
+                        > { login ? 'Iniciar Sesión' : 'Registrarse' }
+                        </button>
+                      )
+                    }
+                  </Mutation>
                 </div>
-              </form>
+              </div>
             </MDBCol>
             <MDBCol md='12' className="pt-4">
               <p className='font-small d-flex justify-content-end'>
@@ -116,10 +115,12 @@ class Login extends Component {
   }
 
   // implement the mutation that we need to send
-  _confirm = async () => {
-    // TODO implement this
-    this.validate();
+  _confirm = async (data) => {
+    const { token } = this.state.login ? data.tokenAuth : data.createUser
+    
+    this._saveUserData(token)
     this.props.history.push(`/looking`)
+
   }
 
   _saveUserData = token => {

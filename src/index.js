@@ -12,20 +12,6 @@ import './base.scss';
 import App from './components/App';
 
 const initialState = {
-  "users": [
-    {
-      "id": 1,
-      "name": "Hugo"
-    },
-    {
-      "id": 2,
-      "name": "Paco"
-    },
-    {
-      "id": 3,
-      "name": "Luis"
-    }
-  ]
 }
 
 const store = createStore(reducer, initialState);
