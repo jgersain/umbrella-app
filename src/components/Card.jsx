@@ -14,8 +14,10 @@ const PROFILE_QUERY = gql`
 
 const Card = props => {
   // const { loading, error, data } = useQuery(PROFILE_QUERY);
-  const { data } = useQuery(PROFILE_QUERY);
-  console.log(data);
+  const { client, loading, data } = useQuery(
+    PROFILE_QUERY,
+    { fetchPolicy: "network-only" }
+  );
   
   // if (loading) {
   //   return <p className="navbar-text navbar-right">Loading...</p>;
