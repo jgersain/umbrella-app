@@ -1,10 +1,12 @@
 /* global google */
 import React, { Component } from 'react';
-import { GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
+import { GoogleApiWrapper, Marker } from 'google-maps-react';
 import Api from '../Api'
 import MapLocation from '../components/MapLocation'
 import UserLocationIcon from '../assets/images/user-location.png';
 import YupiStationIcon from '../assets/images/yupi-station.png';
+import Card from '../components/Card';
+import CardWindow from '../components/CardWindow';
 
 class Looking extends Component {
   constructor(props) {
@@ -15,6 +17,7 @@ class Looking extends Component {
       activeMarker: {},
       selectedPlace: {},
       umbrellas: [],
+      showInfoCard: false
     }
   }
 
@@ -37,6 +40,14 @@ class Looking extends Component {
     showingInfoWindow: true
   });
 
+  onStartButtonClick = () => this.setState({
+    showInfoCard: true,
+    showingInfoWindow: false
+  })
+
+  onFinishButtonClick = () => this.setState({
+    showInfoCard: false
+  })
 
   onClose = () => {
     if (this.state.showingInfoWindow) {
@@ -66,7 +77,7 @@ class Looking extends Component {
             scaledSize: new google.maps.Size(60,60)
           }}
         />,
-        <InfoWindow 
+        <CardWindow 
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
           onClose={this.onClose}
@@ -77,43 +88,42 @@ class Looking extends Component {
                 YupiUmbrella #{this.state.selectedPlace.name}
               </h5>
               <button 
+                onClick={this.onStartButtonClick}
                 className="btn peach-gradient"
               >
                 Comenzar
               </button>
             </div>
           </div>
-        </InfoWindow>
+        </CardWindow>
       ])
     })
   }
 
   render() {
     return (
-      <MapLocation
-        centerAroundCurrentLocation
-        google={this.props.google}
-      >
-        <Marker 
-          onClick={this.onMarkerClick} 
-          name={'!Usted esta aquí! :)'}
-          icon={{
-            url: UserLocationIcon,
-            anchor: new google.maps.Point(30,30),
-            scaledSize: new google.maps.Size(50,50)
-          }}
-        />
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
-          onClose={this.onClose}
+      <>
+        <MapLocation
+          centerAroundCurrentLocation
+          google={this.props.google}
         >
-          <div>
-            <h4>{this.state.selectedPlace.name}</h4>
-          </div>
-        </InfoWindow>
-        { this.displayUmbrellas() }
-      </MapLocation>
+          <Marker
+            icon={{
+              url: UserLocationIcon,
+              anchor: new google.maps.Point(30,30),
+              scaledSize: new google.maps.Size(50,50)
+            }}
+          />
+          { this.displayUmbrellas() }
+        </MapLocation>
+        <div className="fixed-bottom">
+          <Card 
+            current={this.state.selectedPlace.name}
+            visible={this.state.showInfoCard}
+            onClose={this.onFinishButtonClick}
+          />
+        </div>
+      </>
     );
   }
 }

@@ -1,6 +1,7 @@
 // global styles here
 @import url('https://fonts.googleapis.com/css?family=Zhi+Mang+Xing&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css?family=McLaren&display=swap');
 
 #app {    
   background-color: #f1f2f6;
@@ -24,4 +25,8 @@ html, body, #app, #app>div {
 
 .link {
   cursor: pointer;
+}
+
+.message {
+  font-family: 'McLaren', cursive;
 }
